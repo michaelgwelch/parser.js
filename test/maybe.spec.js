@@ -37,6 +37,8 @@ describe("Maybe", function() {
   });
 
   describe("#isJust", function() {
+    // TODO: figure out how to do "parameterized" testing so I can just
+    // run each test with a table of data.
     it("should return false if Maybe is created with no value.", function() {
       new Maybe().isJust().should.be.false;
     });
@@ -45,4 +47,15 @@ describe("Maybe", function() {
       new Maybe(5).isJust().should.be.true;
     });
   });
+
+  describe("#fromJust", function() {
+    it("returns the value extracted from a Maybe if it has one, else it throws an error",
+    function() {
+      new Maybe(5).fromJust().should.equal(5);
+    });
+
+    it("throws an exception on a Nothing instance of Maybe", function() {
+      (function() {new Maybe().fromJust()}).should.throw();
+    })
+  })
 });
