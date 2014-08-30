@@ -11,7 +11,7 @@ describe("Maybe", function() {
     });
 
     it("should return false if Maybe is created with a value.", function() {
-      new Maybe(5).isNothing().should.be.true;
+      new Maybe(5).isNothing().should.be.false;
     });
 
     it("should return true if Maybe is created with a null value.", function() {
