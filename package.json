@@ -1,0 +1,11 @@
+{
+"name" : "maybe",
+"version" : "v0.0.1",
+"description" : "An implementation of Maybe influenced by Haskell's Data.Maybe",
+"dependencies" : 
+  {
+    "mocha" : "<2.0.0",
+    "should" : "<5.0.0"
+  },
+"repository" : "https://github.com/michaelgwelch/maybejs.git"
+}
