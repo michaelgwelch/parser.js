@@ -99,7 +99,7 @@ describe("Maybe", function() {
 
   });
 
-  describe("nothing class method", function() {
+  describe(".nothing", function() {
     it("Returns an object that is equal to new Maybe()", function() {
       Maybe.nothing().equals(new Maybe()).should.be.true;
     });
@@ -112,12 +112,23 @@ describe("Maybe", function() {
 
   });
 
-  describe("just class method", function() {
+  describe(".just", function() {
     it("just(x) returns an object equal to new Maybe(x)", function() {
       Maybe.just(3).equals(new Maybe(3)).should.be.true;
     });
   });
 
+  describe("#bind", function() {
+    it("returns nothing if called on nothing", function() {
+      Maybe.nothing().bind(undefined).equals(Maybe.nothing()).should.be.true;
+    });
+
+    it("applies specified function and returns result of applying it to the value of a just",
+    function() {
+      function maybeParseInt(str) { return Maybe.just(parseInt(str)); }
+      Maybe.just("3").bind(maybeParseInt).equals(Maybe.just(3));
+    });
+  });
 
 
 });

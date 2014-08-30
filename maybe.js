@@ -42,7 +42,11 @@ Maybe.prototype.equals = function equals(other) {
 };
 
 Maybe.prototype.map = function map(f /* f: a -> b */) {
-  return this.hasValue ? new Maybe(f(this.value)) : this;
+  return this.hasValue ? new Maybe(f(this.value)) : nothingObject;
+};
+
+Maybe.prototype.bind = function bind(f /* f: a -> Maybe b */) {
+  return this.hasValue ? f(this.value) : nothingObject;
 };
 
 var nothingObject = Object.freeze(new Maybe());
