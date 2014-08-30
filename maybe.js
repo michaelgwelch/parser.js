@@ -5,7 +5,7 @@
 
 var NoValueException = function NoValueException(functionName) {
   this.message = [functionName, ": Called on a Nothing Maybe"].join("");
-}
+};
 
 var Maybe = function Maybe(value) {
 
@@ -25,7 +25,11 @@ Maybe.prototype.isJust = function isJust() {
 Maybe.prototype.fromJust = function fromJust() {
   if (this.hasValue) return this.value;
   throw new NoValueException("fromJust");
-}
+};
+
+Maybe.prototype.fromMaybe = function fromMaybe(defaultValue) {
+  return this.hasValue ? this.value : defaultValue;
+};
 
 module.exports = Maybe;
 

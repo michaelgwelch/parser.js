@@ -55,7 +55,20 @@ describe("Maybe", function() {
     });
 
     it("throws an exception on a Nothing instance of Maybe", function() {
-      (function() {new Maybe().fromJust()}).should.throw();
-    })
-  })
+      (function() {new Maybe().fromJust();}).should.throw();
+    });
+  });
+
+  describe("#fromMaybe", function() {
+    it("Returns the specified default value when call on a Nothing instance.",
+    function() {
+      new Maybe().fromMaybe("hello").should.equal("hello");
+    });
+
+    it("Returns the extracted value when there is one.", function() {
+      new Maybe("the").fromMaybe("hello").should.equal("the");
+    });
+  });
+
+
 });
