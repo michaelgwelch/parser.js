@@ -31,6 +31,10 @@ Maybe.prototype.fromMaybe = function fromMaybe(defaultValue) {
   return this.hasValue ? this.value : defaultValue;
 };
 
+Maybe.prototype.maybe = function maybe(defaultValue, f) {
+  return this.hasValue ? f(this.value) : defaultValue;
+};
+
 module.exports = Maybe;
 
 })();

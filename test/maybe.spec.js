@@ -70,5 +70,19 @@ describe("Maybe", function() {
     });
   });
 
+  describe("#maybe", function() {
+    it("given Some 5 and increment function returns 6", function() {
+      function incr(v) { return v + 1; }
+      new Maybe(5).maybe(0, incr).should.equal(6);
+    });
+
+    it("give Nothing and an increment function just returns specified default value of -10",
+    function() {
+      function incr(v) { return v + 1; }
+      new Maybe().maybe(-10, incr).should.equal(-10);
+    });
+
+  });
+
 
 });
