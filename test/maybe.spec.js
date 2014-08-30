@@ -1,5 +1,5 @@
 require('should');
-
+var assert = require('assert');
 var Maybe = require('../maybe');
 
 /* jshint -W030 */ // turn off the jshint 'Expected an assignment or function call and instead saw an expression.'
@@ -98,6 +98,26 @@ describe("Maybe", function() {
     });
 
   });
+
+  describe("nothing class method", function() {
+    it("Returns an object that is equal to new Maybe()", function() {
+      Maybe.nothing().equals(new Maybe()).should.be.true;
+    });
+
+    it("is immutable", function() {
+      var n = Maybe.nothing();
+      n.value = 23;
+      assert.equal(n.value, undefined);
+    });
+
+  });
+
+  describe("just class method", function() {
+    it("just(x) returns an object equal to new Maybe(x)", function() {
+      Maybe.just(3).equals(new Maybe(3)).should.be.true;
+    });
+  });
+
 
 
 });

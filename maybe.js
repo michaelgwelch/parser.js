@@ -11,9 +11,8 @@ var NoValueException = function NoValueException(functionName) {
 
 var Maybe = function Maybe(value) {
 
-  this.value = value;
   this.hasValue = !(value === null || value === undefined);
-
+  this.value = value;
 };
 
 Maybe.prototype.isNothing = function isNothing() {
@@ -44,6 +43,16 @@ Maybe.prototype.equals = function equals(other) {
 
 Maybe.prototype.map = function map(f /* f: a -> b */) {
   return this.hasValue ? new Maybe(f(this.value)) : this;
+};
+
+var nothingObject = Object.freeze(new Maybe());
+
+Maybe.nothing = function nothing() {
+  return nothingObject;
+};
+
+Maybe.just = function just(value) {
+  return new Maybe(value);
 };
 
 module.exports = Maybe;
