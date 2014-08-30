@@ -1,5 +1,5 @@
 require('should');
-require('async');
+
 var Maybe = require('../maybe');
 
 /* jshint -W030 */ // turn off the jshint 'Expected an assignment or function call and instead saw an expression.'
