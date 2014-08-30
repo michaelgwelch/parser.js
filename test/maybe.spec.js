@@ -71,7 +71,7 @@ describe("Maybe", function() {
   });
 
   describe("#maybe", function() {
-    it("given Some 5 and increment function returns 6", function() {
+    it("given Just 5 and increment function returns 6", function() {
       function incr(v) { return v + 1; }
       new Maybe(5).maybe(0, incr).should.equal(6);
     });
@@ -80,6 +80,21 @@ describe("Maybe", function() {
     function() {
       function incr(v) { return v + 1; }
       new Maybe().maybe(-10, incr).should.equal(-10);
+    });
+
+  });
+
+
+
+  describe("#map", function() {
+    describe("Has type: Maybe a -> (a -> b) -> Maybe b", function() {
+      it("Given a Nothing instance returns Nothing", function() {
+        new Maybe().map(parseInt).equals(new Maybe()).should.be.true;
+      });
+
+      it("Given a Just '5' and parseInt returns Just 5", function() {
+        new Maybe('5').map(parseInt).equals(new Maybe(5)).should.be.true;
+      });
     });
 
   });

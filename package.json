@@ -6,7 +6,8 @@
   {
     "mocha" : "<2.0.0",
     "should" : "<5.0.0",
-    "jshint" : "<3.0.0"
+    "jshint" : "<3.0.0",
+    "lodash" : "<3.0.0"
   },
 "repository" : "https://github.com/michaelgwelch/maybejs.git"
 }
