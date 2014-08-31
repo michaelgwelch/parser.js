@@ -151,7 +151,7 @@ describe("Maybe", function() {
     it("calls second function argument when just", function() {
       Maybe.just(5).case(
         function() { assert.fail("Expect just case to be called."); },
-        function(value) { console.log(value); value.should.equal(5); }
+        function(value) { value.should.equal(5); }
       );
     });
   });

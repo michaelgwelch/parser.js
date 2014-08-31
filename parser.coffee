@@ -13,6 +13,12 @@ class Parser
       parseResult.unpack (parsed, strout) ->
         f(parsed).parse strout
 
+  or: (parser) -> new Parser (str) =>
+    result = @parseFunction str
+    result.case(
+      -> parser.parse str,
+      -> result)
+
 failure = new Parser((str) -> Maybe.nothing())
 success = (value) -> new Parser((str) -> Maybe.just(new Tuple(value, str)))
 item = new Parser((str) ->
@@ -32,6 +38,7 @@ string = (expected) ->
   else (sat (v) -> v is expected[0]).bind (c) ->
     (string expected.slice 1).bind (cs) ->
       success c + cs
+
 
 
 exports.failure = failure
