@@ -140,5 +140,21 @@ describe("Maybe", function() {
     });
   });
 
+  describe("#case", function() {
+    it("calls first function argument when nothing", function () {
+      Maybe.nothing().case(
+        function() {},
+        function(value) { assert.fail("Expected nothing case to be called."); }
+      );
+    });
+
+    it("calls second function argument when just", function() {
+      Maybe.just(5).case(
+        function() { assert.fail("Expect just case to be called."); },
+        function(value) { console.log(value); value.should.equal(5); }
+      );
+    });
+  });
+
 
 });

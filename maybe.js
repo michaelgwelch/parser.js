@@ -45,7 +45,7 @@ Maybe.prototype.fromMaybe = function fromMaybe(defaultValue) {
 };
 
 Maybe.prototype.maybe = function maybe(defaultValue, f) {
-  return this.hasValue ? f(this.value) : defaultValue;
+  return this.case(constfunc(defaultValue), f);
 };
 
 Maybe.prototype.equals = function equals(other) {
@@ -69,6 +69,11 @@ Maybe.prototype.toString = function() {
 
 Maybe.prototype.ifJust = function ifJust(f) {
   return this.maybe(null, f);
+};
+
+Maybe.prototype.case = function(nothingCase, justCase) {
+  if (!this.hasValue) return nothingCase();
+  else return justCase(this.value);
 };
 
 var nothingObject = Object.freeze(new Maybe());
