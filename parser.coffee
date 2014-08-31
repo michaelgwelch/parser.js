@@ -7,8 +7,13 @@ class Parser
   parse: (str) ->
     return @parseFunction(str)
 
-failure = new Parser (s) -> Maybe.nothing()
-success = (value) -> new Parser (s) -> Maybe.just(new Tuple(value, s))
+failure = new Parser (str) -> Maybe.nothing()
+success = (value) -> new Parser (str) -> Maybe.just(new Tuple(value, str))
+item = new Parser (str) ->
+  switch str
+    when "" then return Maybe.nothing()
+    else return Maybe.just(new Tuple(str[0], str.slice 1))
 
 exports.failure = failure
 exports.success = success
+exports.item = item
