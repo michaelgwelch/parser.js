@@ -37,6 +37,7 @@ Maybe.prototype.maybe = function maybe(defaultValue, f) {
 };
 
 Maybe.prototype.equals = function equals(other) {
+
   if (this.hasValue) return _.isEqual(this, other);
   return !other.hasValue;
 };
@@ -47,6 +48,12 @@ Maybe.prototype.map = function map(f /* f: a -> b */) {
 
 Maybe.prototype.bind = function bind(f /* f: a -> Maybe b */) {
   return this.hasValue ? f(this.value) : nothingObject;
+};
+
+Maybe.prototype.toString = function() {
+  return this.maybe("Nothing", function(v) {
+    return ["Just",v].join(" ");
+  });
 };
 
 var nothingObject = Object.freeze(new Maybe());

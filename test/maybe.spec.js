@@ -130,5 +130,15 @@ describe("Maybe", function() {
     });
   });
 
+  describe("#toString", function() {
+    it("returns 'Nothing' when called on a nothing instance", function() {
+      Maybe.nothing().toString().should.be.equal("Nothing");
+    });
+
+    it("returns 'Just 5' when called on Maybe.just(5)", function() {
+      Maybe.just(5).toString().should.be.equal("Just 5");
+    });
+  });
+
 
 });
