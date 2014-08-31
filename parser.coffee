@@ -22,7 +22,10 @@ item = new Parser((str) ->
 sat = (predicate) ->
     return item.bind (c) -> if predicate(c) then success(c) else failure
 
+lift = (f) -> (parser) -> parser.bind (v) -> success f(v)
+
 exports.failure = failure
 exports.success = success
 exports.item = item
 exports.sat = sat
+exports.lift = lift

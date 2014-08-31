@@ -42,3 +42,8 @@ describe "parsers",  ->
 
     it "parses nothing if the input is empty", ->
       expect((p.sat is_c).parse("")).eql(nothing)
+
+  describe "lift", ->
+    describe "lifts a function of type a -> b to Parser a -> Parser b", ->
+      it "Can be used to turn item and parseInt into a parser of numbers", ->
+        expect((p.lift(parseInt)(p.item)).parse("3")).eql(justTuple(3,""))
