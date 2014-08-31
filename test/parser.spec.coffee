@@ -47,3 +47,9 @@ describe "parsers",  ->
     describe "lifts a function of type a -> b to Parser a -> Parser b", ->
       it "Can be used to turn item and parseInt into a parser of numbers", ->
         expect((p.lift(parseInt)(p.item)).parse("3")).eql(justTuple(3,""))
+
+  describe "lift2", ->
+    describe "lifts f:a -> b -> c to Parser a -> Parser b -> Parser c", ->
+      it "Can do this:", ->
+        adder = (f) -> (s) -> (parseInt f) + (parseInt s)
+        expect((p.lift2(adder)(p.item)(p.item)).parse("34")).eql(justTuple(7,""))

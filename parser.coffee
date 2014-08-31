@@ -23,9 +23,12 @@ sat = (predicate) ->
     return item.bind (c) -> if predicate(c) then success(c) else failure
 
 lift = (f) -> (parser) -> parser.bind (v) -> success f(v)
+lift2 = (f) -> (parser1) -> (parser2) ->
+  parser1.bind (v1) -> parser2.bind (v2) -> success f(v1)(v2)
 
 exports.failure = failure
 exports.success = success
 exports.item = item
 exports.sat = sat
 exports.lift = lift
+exports.lift2 = lift2
