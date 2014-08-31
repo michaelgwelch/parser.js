@@ -72,8 +72,8 @@ Maybe.prototype.ifJust = function ifJust(f) {
 };
 
 Maybe.prototype.case = function(nothingCase, justCase) {
-  if (!this.hasValue) return nothingCase();
-  else return justCase(this.value);
+  if (this.hasValue) return justCase(this.value);
+  return nothingCase();
 };
 
 var nothingObject = Object.freeze(new Maybe());
