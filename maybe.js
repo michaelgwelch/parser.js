@@ -67,6 +67,10 @@ Maybe.prototype.toString = function() {
   });
 };
 
+Maybe.prototype.ifJust = function ifJust(f) {
+  return this.maybe(null, f);
+};
+
 var nothingObject = Object.freeze(new Maybe());
 
 Maybe.nothing = function nothing() {

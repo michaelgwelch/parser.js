@@ -6,4 +6,4 @@ hint:
 	jshint *.js test/*.js
 .PHONY: test
 test:
-	mocha
+	mocha --compilers coffee:coffee-script/register
