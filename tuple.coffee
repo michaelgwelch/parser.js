@@ -1,9 +1,9 @@
 class Tuple
   constructor: () ->
-      i = this.length = arguments.length
+    i = this.length = arguments.length
 
-      while(i--)
-        this[i] = arguments[i]
+    while(i--)
+      this[i] = arguments[i]
 
   @pack2: (x,y) -> return new Tuple(x,y)
 

@@ -7,7 +7,8 @@ class Parser
 
   parse: (str) -> @parseFunction(str)
 
-  bind: (f) -> new Parser (str) => # Note the use of super special fat arrow, thin arrow results in an infitine loop
+  # Note the use of super special fat arrow, thin arrow gives infitine loop
+  bind: (f) -> new Parser (str) =>
     @parseFunction(str).bind (parseResult) ->
       parseResult.unpack (parsed, strout) ->
         f(parsed).parse strout
@@ -20,7 +21,7 @@ item = new Parser((str) ->
     else return Maybe.just(new Tuple(str[0], str.slice 1)))
 
 sat = (predicate) ->
-    return item.bind (c) -> if predicate(c) then success(c) else failure
+  return item.bind (c) -> if predicate(c) then success(c) else failure
 
 lift = (f) -> (parser) -> parser.bind (v) -> success f(v)
 lift2 = (f) -> (parser1) -> (parser2) ->

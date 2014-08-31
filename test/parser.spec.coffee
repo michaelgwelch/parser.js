@@ -52,4 +52,5 @@ describe "parsers",  ->
     describe "lifts f:a -> b -> c to Parser a -> Parser b -> Parser c", ->
       it "Can do this:", ->
         adder = (f) -> (s) -> (parseInt f) + (parseInt s)
-        expect((p.lift2(adder)(p.item)(p.item)).parse("34")).eql(justTuple(7,""))
+        expect((p.lift2(adder)(p.item)(p.item)).parse("34"))
+          .eql(justTuple(7,""))
