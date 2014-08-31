@@ -4,37 +4,41 @@ assert = require 'assert'
 Maybe = require '../maybe.js'
 Tuple = require '../tuple.coffee'
 
+nothing = Maybe.nothing()
+just = Maybe.just
+justTuple = (x,y) -> Maybe.just(new Tuple(x,y))
 
 describe "parsers",  ->
   describe "failure", ->
     it "should never parse anything", ->
-      expect(p.failure.parse("input")).eql(Maybe.nothing())
+      expect(p.failure.parse("input")).eql(nothing)
       # TODO: Want a way to pass multiple inputs to failure
 
   describe "success", ->
     it "should parse whatever it is given without consuming any input", ->
-      expect(p.success(34).parse("input")).eql(Maybe.just(new Tuple(34,"input")))
+      expect(p.success(34).parse("input")).eql(justTuple(34,"input"))
 
   describe "item", ->
     describe "it should parse one character", ->
       it "parses 'input' and returns ('i','nput')", ->
-        expect(p.item.parse("input")).eql(Maybe.just(new Tuple("i","nput")))
+        expect(p.item.parse("input")).eql(justTuple("i","nput"))
 
       it "parses nothing if input is empty string", ->
-        expect(p.item.parse("")).eql(Maybe.nothing())
+        expect(p.item.parse("")).eql(nothing)
 
   describe "Parser#bind", ->
     it "allows us to combine parsers", ->
       onechar = p.item.bind (c1) -> p.success c1
-      expect(onechar.parse("cat")).eql(Maybe.just(new Tuple("c","at")))
+      expect(onechar.parse("cat")).eql(justTuple("c","at"))
 
+  is_c = (v) -> v is "c"
 
   describe "sat", ->
     it "parses if its predicate returns true for the next charater", ->
-      expect((p.sat (v) -> v is "c").parse("cat")).eql(Maybe.just(new Tuple("c","at")))
+      expect((p.sat is_c).parse("cat")).eql(justTuple("c","at"))
 
     it "parses nothing if the predicate returns false", ->
-      expect((p.sat (v) -> v is "c").parse("dog")).eql(Maybe.nothing())
+      expect((p.sat is_c).parse("dog")).eql(nothing)
 
     it "parses nothing if the input is empty", ->
-      expect((p.sat (v) -> v is "c").parse("")).eql(Maybe.nothing())
+      expect((p.sat is_c).parse("")).eql(nothing)
