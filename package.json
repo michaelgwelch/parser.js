@@ -2,12 +2,13 @@
 "name" : "maybe",
 "version" : "v0.0.1",
 "description" : "An implementation of Maybe influenced by Haskell's Data.Maybe",
-"dependencies" : 
+"dependencies" :
   {
     "mocha" : "<2.0.0",
     "should" : "<5.0.0",
     "jshint" : "<3.0.0",
-    "lodash" : "<3.0.0"
+    "lodash" : "<3.0.0",
+    "coffee-script" : "<2.0.0"
   },
 "repository" : "https://github.com/michaelgwelch/maybejs.git"
 }
