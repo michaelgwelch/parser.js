@@ -15,12 +15,24 @@ var Maybe = function Maybe(value) {
   this.value = value;
 };
 
+// Most functions written in terms of #maybe, just because.
+
+function constfunc(x) {
+  return function(_) {
+    return x;
+  };
+}
+
+function id(x) {
+  return x;
+}
+
 Maybe.prototype.isNothing = function isNothing() {
-  return !this.hasValue;
+  return this.maybe(true, constfunc(false));
 };
 
 Maybe.prototype.isJust = function isJust() {
-  return this.hasValue;
+  return this.maybe(false, constfunc(true));
 };
 
 Maybe.prototype.fromJust = function fromJust() {
@@ -29,7 +41,7 @@ Maybe.prototype.fromJust = function fromJust() {
 };
 
 Maybe.prototype.fromMaybe = function fromMaybe(defaultValue) {
-  return this.hasValue ? this.value : defaultValue;
+  return this.maybe(defaultValue, id);
 };
 
 Maybe.prototype.maybe = function maybe(defaultValue, f) {
@@ -37,7 +49,6 @@ Maybe.prototype.maybe = function maybe(defaultValue, f) {
 };
 
 Maybe.prototype.equals = function equals(other) {
-
   if (this.hasValue) return _.isEqual(this, other);
   return !other.hasValue;
 };
