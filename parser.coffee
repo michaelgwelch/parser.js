@@ -27,9 +27,17 @@ lift = (f) -> (parser) -> parser.bind (v) -> success f(v)
 lift2 = (f) -> (parser1) -> (parser2) ->
   parser1.bind (v1) -> parser2.bind (v2) -> success f(v1)(v2)
 
+string = (expected) ->
+  if expected.length == 0 then success ""
+  else (sat (v) -> v is expected[0]).bind (c) ->
+    (string expected.slice 1).bind (cs) ->
+      success c + cs
+
+
 exports.failure = failure
 exports.success = success
 exports.item = item
 exports.sat = sat
 exports.lift = lift
 exports.lift2 = lift2
+exports.string = string

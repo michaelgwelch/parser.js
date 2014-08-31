@@ -54,3 +54,14 @@ describe "parsers",  ->
         adder = (f) -> (s) -> (parseInt f) + (parseInt s)
         expect((p.lift2(adder)(p.item)(p.item)).parse("34"))
           .eql(justTuple(7,""))
+
+  describe "string", ->
+    it "parses empty string if expected empty string", ->
+      expect(p.string("").parse("")).eql(justTuple("",""))
+
+    it "parses the specified string", ->
+      expect(p.string("hello").parse("hello, there"))
+        .eql(justTuple("hello", ", there"))
+
+    it "parses nothing if the input prefix doesn't match the expected", ->
+      expect(p.string("aa").parse("a")).eql(nothing)
