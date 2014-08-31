@@ -19,32 +19,29 @@ class Parser
       -> parser.parse str,
       -> result)
 
-failure = new Parser((str) -> Maybe.nothing())
-success = (value) -> new Parser((str) -> Maybe.just(new Tuple(value, str)))
-item = new Parser((str) ->
-  switch str
-    when "" then return Maybe.nothing()
-    else return Maybe.just(new Tuple(str[0], str.slice 1)))
+  lift: (f) -> @bind (v) -> Parser.success f(v)
 
-sat = (predicate) ->
-  return item.bind (c) -> if predicate(c) then success(c) else failure
+  @failure = new Parser((str) -> Maybe.nothing())
+  @success = (value) -> new Parser((str) -> Maybe.just(new Tuple(value, str)))
+  @item = new Parser((str) ->
+    switch str
+      when "" then return Maybe.nothing()
+      else return Maybe.just(new Tuple(str[0], str.slice 1)))
 
-lift = (f) -> (parser) -> parser.bind (v) -> success f(v)
-lift2 = (f) -> (parser1) -> (parser2) ->
-  parser1.bind (v1) -> parser2.bind (v2) -> success f(v1)(v2)
-
-string = (expected) ->
-  if expected.length == 0 then success ""
-  else (sat (v) -> v is expected[0]).bind (c) ->
-    (string expected.slice 1).bind (cs) ->
-      success c + cs
+  @sat = (predicate) ->
+    return Parser.item.bind (c) ->
+      if predicate(c) then Parser.success(c) else Parser.failure
 
 
 
-exports.failure = failure
-exports.success = success
-exports.item = item
-exports.sat = sat
-exports.lift = lift
-exports.lift2 = lift2
-exports.string = string
+  @lift2 = (f) -> (parser1) -> (parser2) ->
+    parser1.bind (v1) -> parser2.bind (v2) -> Parser.success f(v1)(v2)
+
+  @string = (expected) ->
+    if expected.length == 0 then Parser.success ""
+    else (Parser.sat (v) -> v is expected[0]).bind (c) ->
+      (Parser.string expected.slice 1).bind (cs) ->
+        Parser.success c + cs
+
+
+module.exports = Parser
