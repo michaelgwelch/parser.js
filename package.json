@@ -9,7 +9,8 @@
     "jshint" : "<3.0.0",
     "lodash" : "<3.0.0",
     "coffee-script" : "<2.0.0",
-    "expect.js" : "<1.0.0"
+    "expect.js" : "<1.0.0",
+    "coffeelint" : "<2.0.0"
   },
 "repository" : "https://github.com/michaelgwelch/maybejs.git"
 }
