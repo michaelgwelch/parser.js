@@ -1,4 +1,4 @@
-Maybe = require './Maybe.js'
+Maybe = require './maybe.js'
 
 class Parser
   constructor: (@parseFunction) ->
