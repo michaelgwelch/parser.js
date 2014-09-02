@@ -15,7 +15,11 @@ var Maybe = function Maybe(value) {
   this.value = value;
 };
 
-// Most functions written in terms of #maybe, just because.
+var nothingObject = Object.freeze(new Maybe());
+
+
+// Most functions written in terms of maybe and case, just because.
+// Probably (much?) less efficient, but also less duplication.
 
 function constfunc(x) {
   return function(_) {
@@ -36,8 +40,10 @@ Maybe.prototype.isJust = function isJust() {
 };
 
 Maybe.prototype.fromJust = function fromJust() {
-  if (this.hasValue) return this.value;
-  throw new NoValueException("fromJust");
+  return this.case(
+    function() { throw new NoValueException("fromJust"); },
+    constfunc(this.value)
+  );
 };
 
 Maybe.prototype.fromMaybe = function fromMaybe(defaultValue) {
@@ -49,16 +55,18 @@ Maybe.prototype.maybe = function maybe(defaultValue, f) {
 };
 
 Maybe.prototype.equals = function equals(other) {
-  if (this.hasValue) return _.isEqual(this, other);
-  return !other.hasValue;
+  return this.maybe(!other.hasValue,
+    function(v) { return _.isEqual(v,other.value); });
 };
 
 Maybe.prototype.map = function map(f /* f: a -> b */) {
-  return this.hasValue ? new Maybe(f(this.value)) : nothingObject;
+  return this.maybe(nothingObject,
+    function(v) { return new Maybe(f(v)); });
 };
 
 Maybe.prototype.bind = function bind(f /* f: a -> Maybe b */) {
-  return this.hasValue ? f(this.value) : nothingObject;
+  return this.maybe(nothingObject,
+    function(v) { return f(v); });
 };
 
 Maybe.prototype.toString = function() {
@@ -67,16 +75,9 @@ Maybe.prototype.toString = function() {
   });
 };
 
-Maybe.prototype.ifJust = function ifJust(f) {
-  return this.maybe(null, f);
-};
-
 Maybe.prototype.case = function(nothingCase, justCase) {
-  if (this.hasValue) return justCase(this.value);
-  return nothingCase();
+  return this.hasValue ? justCase(this.value) : nothingCase();
 };
-
-var nothingObject = Object.freeze(new Maybe());
 
 Maybe.nothing = function nothing() {
   return nothingObject;
