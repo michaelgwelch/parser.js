@@ -19,8 +19,8 @@ class Parser
   or: (parser) -> new Parser (str) =>
     result = @parseFunction str
     result.case(
-      -> parser.parse str,
-      -> result)
+      (isNothing) -> parser.parse str,
+      (isJust)  -> result)
 
   concat: (parser) -> @bind (array1) ->
     parser.bind (array2) ->
