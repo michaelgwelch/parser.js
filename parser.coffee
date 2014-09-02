@@ -1,5 +1,5 @@
 Maybe = require './maybe.js'
-Tuple = require './tuple.coffee'
+Tuple = require './tuple.js'
 char = require './char.coffee'
 
 class Parser

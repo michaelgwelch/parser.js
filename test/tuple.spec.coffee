@@ -1,4 +1,4 @@
-Tuple = require '../tuple.coffee'
+Tuple = require '../tuple.js'
 should = require 'should'
 
 describe "Tuple", ->

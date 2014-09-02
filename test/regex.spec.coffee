@@ -1,6 +1,6 @@
 expect = require "expect.js"
 Maybe = require "../maybe.js"
-Tuple = require "../tuple.coffee"
+Tuple = require "../tuple.js"
 r = require "../regex.coffee"
 
 describe "regex module", ->
