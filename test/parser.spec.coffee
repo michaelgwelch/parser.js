@@ -73,3 +73,29 @@ describe "Parser",  ->
 
     it "another example", ->
       expect(p.item.or(p.success(23)).parse("")).eql(justTuple(23,""))
+
+  # the following could be improved. The are more like sanity check tests
+  describe ".lower", ->
+    it "attempts to parse one lower case letter", ->
+      expect(p.lower.parse("h")).eql justTuple "h",""
+      expect(p.lower.parse(",")).eql nothing
+
+  describe ".upper", ->
+    it "attempts to parse one upper case letter", ->
+      expect(p.upper.parse("H")).eql justTuple "H",""
+      expect(p.upper.parse("h")).eql nothing
+
+  describe ".letter", ->
+    it "attempts to parse one letter", ->
+      expect(p.letter.parse("z")).eql justTuple "z",""
+      expect(p.letter.parse(",")).eql nothing
+
+  describe ".digit", ->
+    it "attempts to parse one digit", ->
+      expect(p.digit.parse("3")).eql justTuple "3",""
+      expect(p.digit.parse("a")).eql nothing
+
+  describe ".alphaNum", ->
+    it "attempts to parse one alpha numeric char", ->
+      expect(p.alphaNum.parse("5")).eql justTuple "5",""
+      expect(p.alphaNum.parse(".")).eql nothing

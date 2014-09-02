@@ -1,5 +1,6 @@
 Maybe = require './maybe.js'
 Tuple = require './tuple.coffee'
+char = require './char.coffee'
 
 class Parser
   constructor: (parseFunction) ->
@@ -43,5 +44,10 @@ class Parser
       (Parser.string expected.slice 1).bind (cs) ->
         Parser.success c + cs
 
+  @lower = Parser.sat char.isLower
+  @upper = Parser.sat char.isUpper
+  @letter = Parser.sat char.isLetter
+  @digit = Parser.sat char.isDigit
+  @alphaNum = Parser.sat char.isAlphaNum
 
 module.exports = Parser
