@@ -99,3 +99,15 @@ describe "Parser",  ->
     it "attempts to parse one alpha numeric char", ->
       expect(p.alphaNum.parse("5")).eql justTuple "5",""
       expect(p.alphaNum.parse(".")).eql nothing
+
+  describe ".many", ->
+    describe "converts a 'Parser a' into a 'Parser [a]'", ->
+      it "parsers 0 or more times using specified parser", ->
+        expect(p.many(p.digit).parse("123H")).eql justTuple ["1","2","3"],"H"
+        expect(p.many(p.digit).parse("H")).eql justTuple [],"H"
+
+  describe ".many1", ->
+    describe "converts a 'Parser a' into a 'Parser [a]'", ->
+      it "parsers 1 or more times using specified parser", ->
+        expect(p.many1(p.digit).parse("123H")).eql justTuple ["1","2","3"],"H"
+        expect(p.many1(p.digit).parse("H")).eql nothing

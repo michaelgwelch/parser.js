@@ -50,4 +50,12 @@ class Parser
   @digit = Parser.sat char.isDigit
   @alphaNum = Parser.sat char.isAlphaNum
 
+  @many = (parser) ->
+    Parser.many1(parser).or Parser.success []
+
+  @many1 = (parser) ->
+    parser.bind (t) ->
+      Parser.many(parser).bind (ts) ->
+        Parser.success [t].concat ts
+
 module.exports = Parser
