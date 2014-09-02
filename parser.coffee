@@ -1,6 +1,6 @@
 Maybe = require './maybe.js'
 Tuple = require './tuple.js'
-char = require './char.coffee'
+char = require './char.js'
 
 class Parser
   constructor: (parseFunction) ->

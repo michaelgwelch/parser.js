@@ -1,5 +1,5 @@
 
-c = require "../char.coffee"
+c = require "../char.js"
 expect = require "expect.js"
 _ = require "lodash"
 
