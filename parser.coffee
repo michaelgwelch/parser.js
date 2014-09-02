@@ -1,10 +1,9 @@
-Maybe = require './maybe.js'
+Maybe = require './maybe.coffee'
 Tuple = require './tuple.coffee'
 char = require './char.coffee'
 
 class Parser
-  constructor: (parseFunction) ->
-    @parseFunction = parseFunction
+  constructor: (@parseFunction) ->
 
   parse: (str) -> @parseFunction(str)
 

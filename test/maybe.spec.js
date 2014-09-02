@@ -1,6 +1,6 @@
 require('should');
 var assert = require('assert');
-var Maybe = require('../maybe');
+var Maybe = require('../maybe.coffee');
 
 /* jshint -W030 */ // turn off the jshint 'Expected an assignment or function call and instead saw an expression.'
 describe("Maybe", function() {

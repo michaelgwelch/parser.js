@@ -1,7 +1,7 @@
 expect = require 'expect.js'
 p = require('../parser.coffee')
 assert = require 'assert'
-Maybe = require '../maybe.js'
+Maybe = require '../maybe.coffee'
 Tuple = require '../tuple.coffee'
 
 nothing = Maybe.nothing()

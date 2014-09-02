@@ -3,7 +3,7 @@ all: hint test
 
 .PHONY:	hint
 hint:
-	jshint *.js test/*.js
+	jshint test/*.js
 	coffeelint *.coffee test/*.coffee
 
 .PHONY: test
