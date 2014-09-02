@@ -14,6 +14,11 @@ class Parser
       parseResult.unpack (parsed, strout) ->
         f(parsed).parse strout
 
+  map: (f) -> new Parser (str) =>
+    @parseFunction(str).bind (parseResult) ->
+      parseResult.unpack (parsed, strout) ->
+        return Maybe.just(new Tuple(f(parsed),strout))
+
   or: (parser) -> new Parser (str) =>
     result = @parseFunction str
     result.case(

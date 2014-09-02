@@ -140,3 +140,7 @@ describe "Parser",  ->
     it "parses given string, throwing away white space before and after", ->
       expect(p.symbol("value").parse("\n\tconst value  =123")).eql
       justTuple "const","value =123"
+
+  describe ".map", ->
+    it "works just like Haskell map (Functor map)", ->
+      expect(p.digit.map((v) -> v * 2).parse("2")).eql justTuple 4,""
