@@ -12,10 +12,13 @@ parenexpr = p.string("(").bind (_) ->
     p.string(")").bind (_) ->
       p.success expr
 
+# Parser (Parser String)
 basicexpr = parenexpr.or charexpr
 
+# [String] -> String
 joinStrings = (arrayOfStrings) -> arrayOfStrings.join ""
 
+# Parser (Parser String)
 repeatexpr = ( ->
   option1 = basicexpr.bind (be) ->
     p.string("*").bind (_) ->
@@ -23,8 +26,10 @@ repeatexpr = ( ->
   option2 = basicexpr
   option1.or option2)()
 
+# String -> String -> String
 concatStrings = (s1) -> (s2) -> s1 + s2
 
+# Parser (Parser String)
 concatexpr = ( ->
   option1 = repeatexpr.bind (re) ->
     concatexpr.bind (ce) ->
@@ -32,6 +37,7 @@ concatexpr = ( ->
   option2 = repeatexpr
   option1.or option2)()
 
+# Parser (Parser String)
 orexpr = ( ->
   option1 = concatexpr.bind (ce) ->
     p.string("|").bind (_) ->
@@ -40,8 +46,11 @@ orexpr = ( ->
   option2 = concatexpr
   option1.or option2)()
 
+# () -> Parser (Parser String)
 getExpr = -> orexpr
 
+# Pattern is of type String
+# Pattern -> Parser String
 compile = (str) ->
   if str.length == 0
     p.string ""
@@ -50,6 +59,8 @@ compile = (str) ->
     (tuple) -> tuple.unpack (parsed, remaining) ->
       if remaining.length == 0 then parsed else failure)
 
+# Pattern is of type String
+# (Pattern, String) -> Bool
 accepts = (pattern, input) ->
   parser = compile pattern
   parser.parse(input).maybe(false,
