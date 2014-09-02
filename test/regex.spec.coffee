@@ -48,4 +48,18 @@ describe "regex module", ->
 
   describe "accepts", ->
     it "checks to see if a regex pattern accepts the given string", ->
+      expect(r.accepts("","")).equal true
+      expect(r.accepts("","anything")).equal false
+      expect(r.accepts("2","2")).equal true
+      expect(r.accepts("2", "2 ")).equal false
+      expect(r.accepts("(z)","z")).equal true
+      expect(r.accepts("(z)","(z)")).equal false
+      expect(r.accepts("(ze)4","ze4")).equal true
+      expect(r.accepts("(ze)4"," ze4 ")).equal false
+      expect(r.accepts("(ze)*4","4")).equal true
+      expect(r.accepts("(ze)*4", "ze4")).equal true
+      expect(r.accepts("(ze)*4", "zezezeze4")).equal true
+      expect(r.accepts("(ze)*4", "zeee4")).equal false
+      expect(r.accepts("aaa", "a")).equal false
       expect(r.accepts("c|de*","deee")).equal true
+      expect(r.accepts("c|de*","c")).equal true
