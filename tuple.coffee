@@ -10,6 +10,10 @@ class Tuple
   unpack: (f) ->
     f.apply this, this
 
+  first: -> @unpack (f) -> f
+
+  second: -> @unpack (_,s) -> s
+
   toArray: ->
     return Array.prototype.slice.call(this)
 

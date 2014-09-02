@@ -11,3 +11,11 @@ describe "Tuple", ->
   describe "toString", ->
     it "new Tuple(3,4).toString() returns '(3,4)'", ->
       new Tuple(3,4).toString().should.equal "(3,4)"
+
+  describe "first", ->
+    it "extracts the first value from the tuple", ->
+      new Tuple(5,7).first().should.equal 5
+
+  describe "second", ->
+    it "extracts the second value from the tuple", ->
+      new Tuple(7,9).second().should.equal 9
