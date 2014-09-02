@@ -55,22 +55,21 @@ describe "Parser",  ->
         expect((p.lift2(adder)(p.item)(p.item)).parse("34"))
           .eql(justTuple(7,""))
 
-  # describe "string", ->
-  #   it "parses empty string if expected empty string", ->
-  #     expect(p.string("").parse("")).eql(justTuple("",""))
-  #
-  #   it "parses the specified string", ->
-  #     expect(p.string("hello").parse("hello, there"))
-  #       .eql(justTuple("hello", ", there"))
-  #
-  #   it "parses nothing if the input prefix doesn't match the expected", ->
-  #     expect(p.string("aa").parse("a")).eql(nothing)
-  #
-  # describe "#or", ->
-  #   it "attempts parsing with the first parser and if that fails " +
-  #     "attemps parsing with the second parser", ->
-  #     theParser = p.failure.or p.item
-  #     expect(theParser.parse("hello")).eql(justTuple("h","ello"))
-  #
-  #   it "another example", ->
-  #     expect(p.item.or(p.success(23)).parse("")).eql(justTuple(23,""))
+  describe "string", ->
+    it "parses empty string if expected empty string", ->
+      expect(p.string("").parse("")).eql(justTuple("",""))
+
+    it "parses the specified string", ->
+      expect(p.string("hello").parse("hello, there"))
+        .eql(justTuple("hello", ", there"))
+
+    it "parses nothing if the input prefix doesn't match the expected", ->
+      expect(p.string("aa").parse("a")).eql(nothing)
+
+  describe "#or", ->
+    it "attempts parsing with the first parser and if that fails " +
+      "attemps parsing with the second parser", ->
+      expect(p.failure.or(p.item).parse("hello")).eql(justTuple("h","ello"))
+
+    it "another example", ->
+      expect(p.item.or(p.success(23)).parse("")).eql(justTuple(23,""))
