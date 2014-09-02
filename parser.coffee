@@ -14,16 +14,21 @@ class Parser
       parseResult.unpack (parsed, strout) ->
         f(parsed).parse strout
 
-  map: (f) -> new Parser (str) =>
-    @parseFunction(str).bind (parseResult) ->
-      parseResult.unpack (parsed, strout) ->
-        return Maybe.just(new Tuple(f(parsed),strout))
+  map: (f) -> @bind (v) -> Parser.success f(v)
 
   or: (parser) -> new Parser (str) =>
     result = @parseFunction str
     result.case(
       -> parser.parse str,
       -> result)
+
+  concat: (parser) -> @bind (array1) ->
+    parser.bind (array2) ->
+      Parser.success array1.concat array2
+
+  concats: (parser) -> @bind (str1) ->
+    parser.bind (str2) ->
+      Parser.success str1 + str2
 
   lift: (f) -> @bind (v) -> Parser.success f(v)
 

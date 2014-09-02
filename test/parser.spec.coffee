@@ -144,3 +144,13 @@ describe "Parser",  ->
   describe ".map", ->
     it "works just like Haskell map (Functor map)", ->
       expect(p.digit.map((v) -> v * 2).parse("2")).eql justTuple 4,""
+
+  describe ".concat", ->
+    it "creates parser that concatenates results of two list parsers", ->
+      expect(p.many(p.natural).concat(p.many(p.identifier)).parse(
+        "123 246 369 value i j")).eql justTuple [123,246,369,"value","i","j"],""
+
+  describe ".concats", ->
+    it "creates parser that concatenates results of two string parsers", ->
+      expect(p.manys(p.digit).concat(p.manys(p.lower)).parse(
+        "123abc")).eql justTuple "123abc",""
