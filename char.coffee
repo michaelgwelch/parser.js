@@ -8,9 +8,11 @@ isUpper = (c) -> c >= "A" && c <= "Z"
 isLetter = predicateOr(isLower)(isUpper)
 isDigit = (c) -> c >= "0" && c <= "9"
 isAlphaNum = predicateOr(isLetter)(isDigit)
+isSpace = (c) -> c is " " or c is "\n" or c is "\t"
 
 exports.isLower = isLower
 exports.isUpper = isUpper
 exports.isLetter = isLetter
 exports.isDigit = isDigit
 exports.isAlphaNum = isAlphaNum
+exports.isSpace = isSpace

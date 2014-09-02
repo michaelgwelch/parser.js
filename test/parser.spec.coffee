@@ -111,3 +111,32 @@ describe "Parser",  ->
       it "parsers 1 or more times using specified parser", ->
         expect(p.many1(p.digit).parse("123H")).eql justTuple ["1","2","3"],"H"
         expect(p.many1(p.digit).parse("H")).eql nothing
+
+  describe ".space", ->
+    it "it consumes one or more whitespace chars and returns nothing", ->
+      expect(p.space.parse("    h")).eql justTuple null, "h"
+
+  describe ".ident", ->
+    it "parses an identifier", ->
+      expect(p.ident.parse("value1 = 3")).eql justTuple "value1"," = 3"
+
+  describe ".nat", ->
+    it "parses a natural number", ->
+      expect(p.nat.parse("123h")).eql justTuple 123,"h"
+
+  describe ".token", ->
+    it "consumes whitespace, parses with given parser, and consumes ws", ->
+      expect(p.token(p.nat).parse("  123  h")).eql justTuple 123,"h"
+
+  describe ".identifier", ->
+    it "parses an identifier, throwing away ws before and after", ->
+      expect(p.identifier.parse(" \tvalue =123")).eql justTuple "value","=123"
+
+  describe ".natural", ->
+    it "parses a natural, throwing away white space before and after", ->
+      expect(p.natural.parse(" 123\nh")).eql justTuple "123","h"
+
+  describe ".symbol", ->
+    it "parses given string, throwing away white space before and after", ->
+      expect(p.symbol("value").parse("\n\tconst value  =123")).eql
+      justTuple "const","value =123"

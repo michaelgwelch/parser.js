@@ -58,4 +58,32 @@ class Parser
       Parser.many(parser).bind (ts) ->
         Parser.success [t].concat ts
 
+  @manys = (parser) ->
+    Parser.manys1(parser).or Parser.success ""
+
+  @manys1 = (parser) ->
+    parser.bind (c) ->
+      Parser.manys(parser).bind (cs) ->
+        Parser.success c + cs
+
+  @space = Parser.many(Parser.sat char.isSpace).bind (vs) -> Parser.success null
+
+  @ident = Parser.letter.bind (c) ->
+    Parser.manys(Parser.alphaNum).bind (cs) ->
+      Parser.success c + cs
+
+  @nat = Parser.digit.bind (d) ->
+    Parser.manys(Parser.digit).bind (ds) ->
+      Parser.success d+ds
+
+  @token = (parser) ->
+    Parser.space.bind (s1) ->
+      parser.bind (v) ->
+        Parser.space.bind (s2) ->
+          Parser.success v
+
+  @identifier = Parser.token Parser.ident
+  @natural = Parser.token Parser.nat
+  @symbol = (str) -> Parser.token (Parser.string str)
+
 module.exports = Parser
