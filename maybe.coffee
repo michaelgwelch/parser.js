@@ -30,7 +30,7 @@ class Maybe
 
   maybe: (defaultValue, f) -> @case constfunc(defaultValue), f
 
-  equals: (other) -> @maybe !other.hasValue, (v) -> _.isEqual(v, other.value)
+  equals: (other) -> @maybe !other.hasValue, _.isEqual.bind(_, @value)
 
   map: (f) -> @maybe Maybe.nothingObject, (v) -> new Maybe(f(v))
 
