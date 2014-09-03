@@ -34,12 +34,12 @@ class Maybe
 
   map: (f) -> @maybe Maybe.nothingObject, (v) -> new Maybe(f(v))
 
-  bind: (f) -> @maybe Maybe.nothingObject, (v) -> f(v)
+  bind: (f) -> @maybe Maybe.nothingObject, f
 
   toString: -> @maybe "Nothing", (v) -> ["Just",v].join " "
 
   case: (nothingCase, justCase) ->
-    if @hasValue then justCase(@value) else nothingCase()
+    if @hasValue then justCase(@value, this) else nothingCase()
 
   @nothing = -> Maybe.nothingObject
 
