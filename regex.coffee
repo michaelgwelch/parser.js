@@ -5,8 +5,7 @@ p = require "./parser.coffee"
 curry = (f) -> (a) -> (b) -> f.call(a,b)
 
 # flip:: (a -> b -> c) -> b -> a -> c
-# flip order of parameters
-flipBind = (f) -> (b) -> (a) -> f.bind(a)(b)
+# flip order of parameters of a curried function
 flip = (f) -> (b) -> (a) -> f(a)(b)
 
 #Parser String
@@ -24,21 +23,24 @@ parenexpr = p.string("(").bind (_) ->
 # Parser (Parser String)
 basicexpr = parenexpr.or charexpr
 
+# define with name to help explain the purpose
+joinArrayOfStrings = flip(curry(Array.prototype.join))("")
+
 # Parser (Parser String)
 repeatexpr = ( ->
   option1 = basicexpr.bind (be) ->
     p.string("*").bind (_) ->
-      p.success(p.many(be).map flipBind(Array.prototype.join)(""))
+      p.success(p.many(be).map joinArrayOfStrings)
   option2 = basicexpr
   option1.or option2)()
 
-
+concatStrings = curry(String.prototype.concat)
 
 # Parser (Parser String)
 concatexpr = ( ->
   option1 = repeatexpr.bind (re) ->
     concatexpr.bind (ce) ->
-      p.success p.lift2(curry(String.prototype.concat))(re)(ce)
+      p.success p.lift2(concatStrings)(re)(ce)
   option2 = repeatexpr
   option1.or option2)()
 
