@@ -1,5 +1,5 @@
 expect = require 'expect.js'
-p = require('../parser.coffee')
+p = require('../parser.js')
 assert = require 'assert'
 Maybe = require '../maybe.js'
 Tuple = require '../tuple.js'
@@ -46,13 +46,13 @@ describe "Parser",  ->
   describe "#lift", ->
     describe "lifts a function of type a -> b to Parser a -> Parser b", ->
       it "Can be used to turn item and parseInt into a parser of numbers", ->
-        expect((p.item.lift(parseInt)).parse("3")).eql(justTuple(3,""))
+        expect((p.lift(p.item,parseInt)).parse("3")).eql(justTuple(3,""))
 
   describe "lift2", ->
     describe "lifts f:a -> b -> c to Parser a -> Parser b -> Parser c", ->
       it "Can do this:", ->
-        adder = (f) -> (s) -> (parseInt f) + (parseInt s)
-        expect((p.lift2(adder)(p.item)(p.item)).parse("34"))
+        adder = (f,s) -> (parseInt f) + (parseInt s)
+        expect((p.lift2(adder,p.item,p.item)).parse("34"))
           .eql(justTuple(7,""))
 
   describe "string", ->
@@ -73,6 +73,9 @@ describe "Parser",  ->
 
     it "another example", ->
       expect(p.item.or(p.success(23)).parse("")).eql(justTuple(23,""))
+
+    it "picks first parser if it works", ->
+      expect(p.item.or(p.success(23)).parse("abc")).eql(justTuple("a","bc"));
 
   # the following could be improved. The are more like sanity check tests
   describe ".lower", ->

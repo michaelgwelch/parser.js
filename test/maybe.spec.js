@@ -154,6 +154,13 @@ describe("Maybe", function() {
         function(value) { value.should.equal(5); }
       );
     });
+
+    it("passes it's wrapped value and itself to the just case", function() {
+      Maybe.just("hello").case(
+        function() { assert.fail("Expect just case to be called."); },
+        function(_, original) { original.should.eql(Maybe.just("hello")); }
+      );
+    });
   });
 
 

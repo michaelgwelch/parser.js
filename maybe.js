@@ -76,7 +76,7 @@ Maybe.prototype.toString = function() {
 };
 
 Maybe.prototype.case = function(nothingCase, justCase) {
-  return this.hasValue ? justCase(this.value) : nothingCase();
+  return this.hasValue ? justCase(this.value, this) : nothingCase();
 };
 
 Maybe.nothing = function nothing() {
