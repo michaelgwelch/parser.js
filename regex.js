@@ -112,12 +112,12 @@
     });
   };
 
-exports.charexpr = charexpr;
-exports.parenexpr = parenexpr;
-exports.basicexpr = basicexpr;
-exports.repeatexpr = repeatexpr;
-exports.concatexpr = concatexpr;
-exports.orexpr = orexpr;
-exports.compile = compile;
+// exports.charexpr = charexpr;
+// exports.parenexpr = parenexpr;
+// exports.basicexpr = basicexpr;
+// exports.repeatexpr = repeatexpr;
+// exports.concatexpr = concatexpr;
+// exports.orexpr = orexpr;
+// exports.compile = compile;
 exports.accepts = accepts;
 })();
