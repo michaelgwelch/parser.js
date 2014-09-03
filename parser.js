@@ -57,9 +57,8 @@
   };
 
   Parser.lift = function(parser, f) {
-    return parser.bind(function(v) {
-      return Parser.success(f(v));
-    });
+    // Class method version of #map, so just delegate to map
+    return parser.map(f);
   };
 
   Parser.failure = new Parser(
