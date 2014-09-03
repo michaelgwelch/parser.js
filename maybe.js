@@ -55,8 +55,7 @@ Maybe.prototype.maybe = function maybe(defaultValue, f) {
 };
 
 Maybe.prototype.equals = function equals(other) {
-  return this.maybe(!other.hasValue,
-    function(v) { return _.isEqual(v,other.value); });
+  return this.maybe(!other.hasValue, _.isEqual.bind(_,this.value));
 };
 
 Maybe.prototype.map = function map(f /* f: a -> b */) {
