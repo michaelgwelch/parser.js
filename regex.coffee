@@ -1,5 +1,14 @@
 p = require "./parser.coffee"
 
+# curry :: ((a,b) -> c) -> a -> b -> c
+# converts a non-curried function into a curried function
+curry = (f) -> (a) -> (b) -> f.call(a,b)
+
+# flip:: (a -> b -> c) -> b -> a -> c
+# flip order of parameters
+flipBind = (f) -> (b) -> (a) -> f.bind(a)(b)
+flip = (f) -> (b) -> (a) -> f(a)(b)
+
 #Parser String
 regchar = p.sat (c) -> c != "|" && c != "*" && c != "(" && c != ")"
 
@@ -15,25 +24,21 @@ parenexpr = p.string("(").bind (_) ->
 # Parser (Parser String)
 basicexpr = parenexpr.or charexpr
 
-# [String] -> String
-joinStrings = (arrayOfStrings) -> arrayOfStrings.join ""
-
 # Parser (Parser String)
 repeatexpr = ( ->
   option1 = basicexpr.bind (be) ->
     p.string("*").bind (_) ->
-      p.success(p.many(be).lift joinStrings)
+      p.success(p.many(be).map flipBind(Array.prototype.join)(""))
   option2 = basicexpr
   option1.or option2)()
 
-# String -> String -> String
-concatStrings = (s1) -> (s2) -> s1 + s2
+
 
 # Parser (Parser String)
 concatexpr = ( ->
   option1 = repeatexpr.bind (re) ->
     concatexpr.bind (ce) ->
-      p.success p.lift2(concatStrings)(re)(ce)
+      p.success p.lift2(curry(String.prototype.concat))(re)(ce)
   option2 = repeatexpr
   option1.or option2)()
 

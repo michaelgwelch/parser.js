@@ -29,7 +29,8 @@ class Parser
     parser.bind (str2) ->
       Parser.success str1 + str2
 
-  lift: (f) -> @bind (v) -> Parser.success f(v)
+  # Class method version of map
+  @lift = (parser) -> (f) -> parser.map(f)
 
   @failure = new Parser((str) -> Maybe.nothing())
   @success = (value) -> new Parser((str) -> Maybe.just(new Tuple(value, str)))
