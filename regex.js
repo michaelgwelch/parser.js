@@ -79,14 +79,7 @@
         });
       });
   };
-// compile = (str) ->
-//   if str.length == 0
-//     p.string ""
-//   else
-//     orexpr.parse(str).maybe(p.failure,
-//     (tuple) -> tuple.unpack (parsed, remaining) ->
-//       if remaining.length == 0 then parsed else failure)
-//
+
   // Pattern is of type String
   // (Pattern, String) -> Bool
   var accepts = function(pattern,input) {
@@ -97,12 +90,7 @@
       });
     });
   };
-// accepts = (pattern, input) ->
-//   parser = compile pattern
-//   parser.parse(input).maybe(false,
-//   (tuple) -> tuple.unpack (parsed, remaining) ->
-//     if remaining.length == 0 then true else false)
-//
+
 exports.charexpr = charexpr;
 exports.parenexpr = parenexpr;
 exports.basicexpr = basicexpr;
