@@ -64,8 +64,7 @@ Maybe.prototype.map = function map(f /* f: a -> b */) {
 };
 
 Maybe.prototype.bind = function bind(f /* f: a -> Maybe b */) {
-  return this.maybe(nothingObject,
-    function(v) { return f(v); });
+  return this.maybe(nothingObject, f);
 };
 
 Maybe.prototype.toString = function() {
