@@ -134,7 +134,7 @@
     });
   };
 
-  Parser.space = Parser.many(Parser.sat(char.isSpace)).bind(function (vs) {
+  Parser.space = Parser.many(Parser.sat(char.isSpace)).bind(function (_) {
     return Parser.success(null);
   });
 
