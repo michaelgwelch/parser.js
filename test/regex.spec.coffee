@@ -63,3 +63,4 @@ describe "regex module", ->
       expect(r.accepts("aaa", "a")).equal false
       expect(r.accepts("c|de*","deee")).equal true
       expect(r.accepts("c|de*","c")).equal true
+      expect(r.accepts("c","cd")).equal false

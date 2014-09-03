@@ -64,8 +64,7 @@ compile = (str) ->
 accepts = (pattern, input) ->
   parser = compile pattern
   parser.parse(input).maybe(false,
-  (tuple) -> tuple.unpack (parsed, remaining) ->
-    if remaining.length == 0 then true else false)
+  (tuple) -> tuple.unpack (parsed, remaining) -> (remaining.length == 0))
 
 exports.charexpr = charexpr
 exports.parenexpr = parenexpr
