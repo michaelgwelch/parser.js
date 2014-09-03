@@ -3,6 +3,32 @@
   "use strict";
   var p = require("./parser.js");
 
+  var curry = function(f) {
+    return function(a) {
+      return function(b) {
+        return f.call(a,b);
+      };
+    };
+  };
+
+  var flip = function(f) {
+    return function(b) {
+      return function(a) {
+        return f.call(a)(b);
+      };
+    };
+  };
+
+  // flip order of arguments of a non-curried function
+  // and return a curried version of that.
+  var flip2 = function(f) {
+    return function(b) {
+      return function(a) {
+        return f.call(a,b);
+      };
+    };
+  };
+
   //Parser String
   var regchar = p.sat(function(c) {
     return c !== "|" && c !== "*" && c !== "(" && c !== ")";
@@ -24,29 +50,24 @@
   var basicexpr = parenexpr.or(charexpr);
 
   // [String] -> String
-  var joinStrings = function(arrayOfStrings) { return arrayOfStrings.join(""); };
+  var joinArrayOfStrings = flip2(Array.prototype.join)("");
 
   // Parser (Parser String)
   var repeatexpr = (function() {
     var option1 = basicexpr.bind(function(be) {
       return p.string("*").bind(function(_) {
-        return p.success(p.lift(p.many(be), joinStrings));
+        return p.success(p.many(be).map(joinArrayOfStrings));
       });
     });
     var option2 = basicexpr;
     return option1.or(option2);
   })();
 
-
-
-  // String -> String -> String
-  var concatStrings = function(s1, s2) { return s1 + s2; };
-
   // Parser (Parser String)
   var concatexpr = (function() {
     var option1 = repeatexpr.bind(function(re) {
       return concatexpr.bind(function(ce) {
-        return p.success(p.lift2(concatStrings,re,ce));
+        return p.success(p.lift2(String.prototype.concat.bind(""),re,ce));
       });
     });
     var option2 = repeatexpr;
@@ -86,7 +107,7 @@
     var parser = compile(pattern);
     return parser.parse(input).maybe(false,function(tuple) {
       return tuple.unpack(function(parsed, remaining) {
-        return (remaining.length === 0);
+        return (remaining.length === 0) ? parsed === input : false;
       });
     });
   };
