@@ -14,15 +14,14 @@
 
 
   Parser.prototype.bind = function (f) {
-    var self = this;
     return new Parser(
-      function(str) {
-        return self.parseFunction(str).bind(function(parseResult) {
+      (function(str) {
+        return this.parseFunction(str).bind(function(parseResult) {
           return parseResult.unpack(function(parsed, remaining) {
             return f(parsed).parse(remaining);
           });
         });
-      }
+      }).bind(this)
     );
   };
 
@@ -33,13 +32,12 @@
   };
 
   Parser.prototype.or = function(parser) {
-    var self = this;
-    return new Parser(function(str) {
-      return self.parseFunction(str).case(
+    return new Parser((function(str) {
+      return this.parseFunction(str).case(
         function(_) { return parser.parse(str); }, // nothing case
         function(_,original) { return original; }  // just case
       );
-    });
+    }).bind(this));
   };
 
   Parser.prototype.concat = function(parser) {
