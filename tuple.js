@@ -8,10 +8,6 @@ var Tuple = function Tuple() {
     this[i] = arguments[i];
 };
 
-Tuple.prototype.pack2 = function pack2(x,y) {
-  return new Tuple(x,y);
-};
-
 Tuple.prototype.unpack = function unpack(f) {
   return f.apply(this, this);
 };
