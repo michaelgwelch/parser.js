@@ -1,7 +1,7 @@
 parserjs
 =======
 
-[![Build Status](https://travis-ci.org/michaelgwelch/maybejs.svg?branch=master)](https://travis-ci.org/michaelgwelch/maybejs)
+[![Build Status](https://travis-ci.org/michaelgwelch/parser.js.svg?branch=master)](https://travis-ci.org/michaelgwelch/parser.js)
 
 Functional Parsing based on Haskell monadic functional parsers.
 
